@@ -8,9 +8,12 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/
 """
 
 import os
-
+from dotenv import load_dotenv
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_manager.settings')
 
 application = get_wsgi_application()
+
+project_folder = os.path.expanduser('~/python-project-lvl4')
+load_dotenv(os.path.join(project_folder, '.env'))
