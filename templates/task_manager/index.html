@@ -47,12 +47,24 @@
                         <li class="nav-item active">
                             <a href="#" class="nav-link">Home</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-ite">
+                            <a href="{% url 'tags' %}" class="nav-link">Tags</a>
+                        </li>
+                        <li class="nav-ite">
+                            <a href="{% url 'statuses' %}" class="nav-link">Statuses</a>
+                        </li>
+                        <li class="nav-ite">
+                            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Login</a>
+                            <a href="{% url 'login' %}" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Register</a>
+                            <a href="{% url 'register' %}" class="nav-link">Register</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a href="#" class="nav-link">About</a>
                         </li>
@@ -113,6 +125,12 @@
             <ul class="list-unstyled">
 
             </ul>
+            {% for task in tasks %}
+                </div>
+                    <h3>{{ task.name }}</h3>
+                    <p>{{ task.description }}</p>
+                </div>
+            {% endfor %}
         </main>
         
         <footer class="mastfoot mt-auto text-center">
