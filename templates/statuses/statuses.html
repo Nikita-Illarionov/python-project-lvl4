@@ -1,0 +1,32 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+        <h1 class="my-4 text-center" style="color: white">Статусы</h1>
+        <table class="table mx-auto my-5 table-bordered table-hover table-dark" style="width: 55%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Дата создания</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for status in statuses %}
+                <tr>
+                    <td>{{ status.id }}</td>
+                    <td>{{ status.name }}</td>
+                    <td>{{ status.created_at }}</td>
+                    <td>
+                        <a href="{% url 'update_status' status.id %}"><button class="btn btn-info btn-sm">Изменить</button></a>
+                        <a href="{% url 'delete_status' status.id %}"><button class="btn btn-danger btn-sm">Удалить</button></a><br>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'create_status' %}"><button>Добавить статус</button></a>
+{% endblock %}

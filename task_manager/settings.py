@@ -38,6 +38,8 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'tasks',
     'users',
+    'statuses',
+    'labels',
     'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -10,53 +10,9 @@ def index(request):
     return render(request, 'task_manager/index.html', {'tasks': tasks})
 
 
-
-def status_page(request):
-    statuses = Statuses.objects.all()
-    return render(request, 'tasks/statuses.html', {'statuses': statuses})
-
-
 def tag_page(request):
     tags = Tags.objects.all()
     return render(request, 'tasks/tags.html', {'tags': tags})
-
-
-
-def create_status(request):
-    error = ''
-    if request.method == 'POST':
-        form = StatusesForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('statuses')
-        else:
-            error = 'Форма заполнена неверно'
-
-
-    form = StatusesForm()
-    data = {'form': form, 'error': error}
-    return render(request, 'tasks/create_status.html', data)
-
-
-
-class StatusUpdateView(UpdateView):
-    model = Statuses
-    template_name = 'tasks/create_status.html'
-    field = ['name']
-
-    form_class = StatusesForm
-
-
-class UsersView(View):
-    model = User
-    template_name = 'users.html'
-
-
-class StatusDeleteView(DeleteView):
-    model = Statuses
-    template_name = 'tasks/delete_status.html'
-    field = ['name']
-    success_url = '/statuses/'
 
 
 

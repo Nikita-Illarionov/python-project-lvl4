@@ -1,0 +1,15 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Изменение статуса статуса{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>Изменить статус</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.name }}<br>
+        <span>{{ error }}</span>
+        <button type="submit">Изменить</button>
+    </form>
+</div>
+{% endblock %}
