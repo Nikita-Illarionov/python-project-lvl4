@@ -1,0 +1,13 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Удалить пользователя{% endblock %}
+
+{% block content %}
+        <div class="features">
+            <h1>Удалить пользователя</h1>
+            <form method="post">
+                {% csrf_token %}
+                <a href="{% url 'update_user' user.id %}"><button class="btn btn-danger btn-sm">Удалить</button></a><br>
+            </form>
+        </div>
+{% endblock %}

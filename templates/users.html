@@ -1,0 +1,31 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+        <h1 class="my-4 text-center" style="color: white">Пользователи</h1>
+        <table class="table mx-auto my-5 table-bordered table-hover table-dark" style="width: 55%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя пользователя</th>
+                    <th>Полное имя</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    <td>
+                        <a href="{% url 'update_user' user.id %}"><button class="btn btn-info btn-sm">Изменить</button></a>
+                        <a href="{% url 'delete_user' user.id %}"><button class="btn btn-danger btn-sm">Удалить</button></a><br>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

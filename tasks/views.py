@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Tasks, Statuses, Tags
 from .forms import StatusesForm, TagsForm
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, View
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -46,6 +47,9 @@ class StatusUpdateView(UpdateView):
     form_class = StatusesForm
 
 
+class UsersView(View):
+    model = User
+    template_name = 'users.html'
 
 
 class StatusDeleteView(DeleteView):

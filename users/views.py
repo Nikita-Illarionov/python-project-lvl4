@@ -1,16 +1,44 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.models import User
 
 
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterForm
+from django.contrib.auth import authenticate, login
+
+
+
+
+def user_table(request):
+    users = User.objects.all()
+    
+    return render(request, 'users.html', {'users': users})
+
+
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = 'registration/register.html'
+    form_class = RegisterForm
+    success_url = '/users/'
+
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'delete_user.html'
+    success_url = '/users/'
+
+
 
 
 class RegisterView(FormView):
-    form_class = UserCreationForm
+    form_class = RegisterForm
 
     # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
     # В данном случае указана ссылка на страницу входа для зарегистрированных пользователей.
