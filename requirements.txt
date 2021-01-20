@@ -15,4 +15,4 @@ urllib3==1.26.2
 whitenoise==5.2.0
 python-dotenv
 bootstrap4
-django_filters
+django_filters==2.4.0
