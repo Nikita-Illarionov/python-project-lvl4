@@ -14,3 +14,4 @@ sqlparse==0.4.1
 urllib3==1.26.2
 whitenoise==5.2.0
 python-dotenv
+bootstrap4
