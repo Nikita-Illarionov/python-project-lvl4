@@ -1,0 +1,44 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Создание задачи{% endblock %}
+
+{% block content %}
+<main role="main" class="my-3">
+  <h2>Create new task</h2>
+  <form method="post" class="form">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+      {{ form.errors }}
+    </div>
+    {% endif %}
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" name="name" id="name" value="{{ form.name.value|default_if_none:'' }}">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" rows=3>{{ form.description.value|default_if_none:'' }}</textarea>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="assigned_to">Assigned to</label>
+        <select class="form-control" id="assigned_to" name="assigned_to">
+        {% for assignee in form.assigned_to %}
+          {{ assignee }}
+        {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="status">Status</label>
+        <select class="form-control" id="status" name="status">
+        {% for st in form.status %}
+          {{ st }}
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</main>
+{% endblock %}

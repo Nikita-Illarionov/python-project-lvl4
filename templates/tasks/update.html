@@ -1,0 +1,50 @@
+{% extends 'task_manager/layout.html' %}
+
+{% block title %}Изменение задачи{% endblock %}
+
+{% block content %}
+<div class="container" style="width: 50%; color: white">
+    <div class="card bg-dark my-5">
+        <div class="card-header">
+            <h2>Изменение задачи</h2>
+        </div>
+        <div class="card-body">
+	  <form method="post" class="form">
+	    {% csrf_token %}
+	    {% if form.errors %}
+	    <div class="alert alert-danger" role="alert">
+	      {{ form.errors }}
+	    </div>
+	    {% endif %}
+	    <div class="form-group">
+	      <label>Имя</label>
+	      <input type="text" class="form-control" value="{{ form.name.value|default_if_none:'' }}">
+	    </div>
+	    <div class="form-group">
+	      <label for="description">Описание</label>
+	      <textarea class="form-control" rows=3>{{ form.description.value|default_if_none:'' }}</textarea>
+	    </div>
+	    <div class="row">
+	      <div class="form-group col-md-6">
+		<label>Исполнитель</label>
+		<select class="form-control">
+		{% for assignee in form.assigned_to %}
+		  {{ assignee }}
+		{% endfor %}
+		</select>
+	      </div>
+	      <div class="form-group col-md-6">
+		<label>Статус</label>
+		<select class="form-control">
+		{% for st in form.status %}
+		  {{ st }}
+		{% endfor %}
+		</select>
+	      </div>
+	    </div>
+	    <button type="submit" class="btn btn-primary">Изменить</button>
+	  </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

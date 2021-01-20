@@ -9,6 +9,7 @@ class StatusView(ListView):
     model = Statuses
     template_name = "statuses/statuses.html"
     context_object_name = 'statuses'
+    form_class = StatusForm
 
 
 
