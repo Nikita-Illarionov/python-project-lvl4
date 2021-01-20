@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Labels
 from .forms import LabelForm
 from django.views.generic import UpdateView, DeleteView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class LabelView(ListView):
+class LabelView(LoginRequiredMixin, ListView):
     model = Labels
     template_name = "labels/labels.html"
     context_object_name = 'labels'
+    login_url = 'login'
 
 
 
@@ -28,18 +30,18 @@ def create_label(request):
 
 
 
-class UpdateLabel(UpdateView):
+class UpdateLabel(LoginRequiredMixin, UpdateView):
     model = Labels
     template_name = 'labels/update.html'
-    field = ['name']
-
     form_class = LabelForm
+    login_url = 'login'
 
 
 
 
-class DeleteLabel(DeleteView):
+class DeleteLabel(LoginRequiredMixin, DeleteView):
     model = Labels
     template_name = 'labels/delete.html'
-    field = ['name']
     success_url = '/labels/'
+    context_object_name = 'labels'
+    login_url = 'login'

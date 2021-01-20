@@ -29,13 +29,10 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
                 <a href="/"><h2 class="navbar-brand">Менеджер задач</h2></a>
-                    <ul class="navbar-nav mr-auto">
-                        <li>
-                            <a href="{% url 'users' %}" class="nav-link">Пользователи</a>
-                        </li>
-                    </ul>
-                <div>
-                    <ul class="navbar-nav ml-auto">
+		    <ul class="navbar-nav mr-auto">
+		        <li>
+		            <a href="{% url 'users' %}" class="nav-link">Пользователи</a>
+		        </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a href="{% url 'labels' %}" class="nav-link">Метки</a>
@@ -46,6 +43,11 @@
                         <li>
                             <a href="{% url 'tasks' %}" class="nav-link">Задачи</a>
                         </li>
+                        {% endif %}
+		    </ul>
+                <div>
+                    <ul class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a href="{% url 'logout' %}" class="nav-link">Выход</a>
                         </li>

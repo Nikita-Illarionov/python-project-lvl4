@@ -9,6 +9,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 
@@ -21,18 +22,35 @@ def user_table(request):
 
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     template_name = 'registration/register.html'
     form_class = RegisterForm
     success_url = '/users/'
+    login_url = 'users'
+    
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
+    def handle_no_permission(self):
+        return redirect(self.login_url)
 
 
 
-class UserDeleteView(DeleteView):
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'delete_user.html'
     success_url = '/users/'
+    login_url = 'users'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
+    def handle_no_permission(self):
+        return redirect(self.login_url)
 
 
 

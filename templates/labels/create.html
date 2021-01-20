@@ -1,15 +1,21 @@
 {% extends 'task_manager/layout.html' %}
 
-{% block title %}Создание статуса{% endblock %}
+{% block title %}Добавление метки{% endblock %}
+
 
 {% block content %}
-<div class="features">
-    <h1>Форма для создания метки</h1>
-    <form method="post">
+<div class="container" style="width: 50%; color: white">
+  <div class="card bg-dark my-5">
+    <div class="card-header">
+      <h3>Добавить метку</h3>
+    </div>
+    <div class="card-body">
+      <form class="form" method="post">
         {% csrf_token %}
-        {{ form.name }}<br>
-        <span>{{ error }}</span>
-        <button type="submit">Добавить</button>
-    </form>
+        {{ form.name }}
+        <button class="btn btn-primary mt-3" type="submit">Добавить</button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

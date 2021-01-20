@@ -9,10 +9,11 @@ from .filters import TasksFilter
 
 
 
-class TasksList(ListView):
+class TasksList(LoginRequiredMixin, ListView):
     model = Tasks
     template_name = "tasks/tasks.html"
     context_object_name = 'tasks'
+    login_url = 'login'
 
     def get_queryset(self):
         """Filter by tag if it is provided in GET parameters."""
@@ -32,44 +33,38 @@ class TasksList(ListView):
 
 
 
-class CreateTask(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Tasks
-    fields = ['name', 'description', 'status', 'assigned_to']
+    fields = ['name', 'description', 'status', 'assigned_to', 'labels']
     template_name = 'tasks/create.html'
     success_url = '/tasks/'
+    login_url = 'login'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
 
 
-'''
-def create_task(request):
-    error = ''
-    if request.method == 'POST':
-        form = TasksForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('tasks')
-        else:
-            error = 'Форма заполнена неверно'
 
-    form = TasksForm()
-    data = {'form': form, 'error': error}
-    return render(request, 'tasks/create.html', data)
-
-'''
-
-class UpdateTask(UpdateView):
+class UpdateTask(LoginRequiredMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/update.html'
     form_class = TasksForm
+    login_url = 'login'
 
 
 
-class DeleteTask(DeleteView):
+class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Tasks
     template_name = 'tasks/delete.html'
     success_url = '/tasks/'
+    login_url = 'tasks'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.creator == self.request.user
+
+    def handle_no_permission(self):
+        return redirect(self.login_url)

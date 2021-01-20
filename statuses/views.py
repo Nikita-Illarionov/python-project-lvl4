@@ -2,14 +2,16 @@ from .models import Statuses
 from django.views.generic import UpdateView, DeleteView, ListView
 from .forms import StatusForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
-class StatusView(ListView):
+class StatusView(LoginRequiredMixin, ListView):
     model = Statuses
     template_name = "statuses/statuses.html"
     context_object_name = 'statuses'
     form_class = StatusForm
+    login_url = 'login'
 
 
 
@@ -29,16 +31,17 @@ def create_status(request):
 
 
 
-class UpdateStatus(UpdateView):
+class UpdateStatus(LoginRequiredMixin, UpdateView):
     model = Statuses
     template_name = 'statuses/update.html'
-    field = ['name']
     form_class = StatusForm
+    login_url = 'login'
 
 
 
-class DeleteStatus(DeleteView):
+class DeleteStatus(LoginRequiredMixin, DeleteView):
     model = Statuses
     template_name = 'statuses/delete.html'
     field = ['name']
     success_url = '/statuses/'
+    login_url = 'login'
