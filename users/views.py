@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.urls import reverse
-from django.contrib.auth.models import User
+from .models import CustomUser
 
 
 from django.views.generic.edit import FormView
@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 def user_table(request):
-    users = User.objects.all()
+    users = CustomUser.objects.all()
     
     return render(request, 'users.html', {'users': users})
 
@@ -23,7 +23,7 @@ def user_table(request):
 
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = User
+    model = CustomUser
     template_name = 'registration/register.html'
     form_class = RegisterForm
     success_url = '/users/'
@@ -40,7 +40,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = User
+    model = CustomUser
     template_name = 'delete_user.html'
     success_url = '/users/'
     login_url = 'users'
