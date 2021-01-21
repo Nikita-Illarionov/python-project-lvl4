@@ -6,4 +6,4 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         """String representation of user model."""
-        return self.username
+        return self.get_full_name()

@@ -64,7 +64,7 @@ class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         obj = self.get_object()
-        return obj.creator == self.request.user
+        return obj == self.request.user
 
     def handle_no_permission(self):
         return redirect(self.login_url)
