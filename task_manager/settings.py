@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'tasks',
-    'users',
+    'users.apps.UsersConfig',
     'statuses',
     'labels',
     'bootstrap4',
