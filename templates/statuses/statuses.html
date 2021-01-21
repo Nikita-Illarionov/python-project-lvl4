@@ -4,6 +4,7 @@
 
 {% block content %}
         <div class="mx-auto" style="width: 55%">
+        {% include 'messages.html' %}
         <h1 class="my-4 text-center" style="color: white">Статусы</h1>
         <a href="{% url 'create_status' %}"><button class="btn btn-info">Добавить статус</button></a>
         <table class="table mx-auto my-1 table-bordered table-hover table-dark">

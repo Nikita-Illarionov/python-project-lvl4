@@ -5,6 +5,7 @@
 
 {% block content %}
      <main role="main" class="inner cover my-5 mx-auto text-center" style="color: white; width: 50%;">
+        {% include 'messages.html' %}
         <h1 class="cover-heading">Это менеджер задач.</h1>
         <p class="lead">Авторизованные пользователи могут управлять задачами, статусами, метками (просмотр, создание, редактирование, удаление). Неавторизованные пользователи могут просматривать только список зарегестрированных пользователей.</p>
         {% if not user.is_authenticated %}

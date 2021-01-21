@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.shortcuts import redirect
 
 
 class Labels(models.Model):
@@ -15,3 +16,9 @@ class Labels(models.Model):
 
     def get_absolute_url(self):
         return reverse('labels')
+
+    def delete(self, *args, **kwargs):
+        if self.tasks_set.count() >  0:
+            return redirect(reverse('labels'))
+        else:
+            super(Labels, self).delete(*args, **kwargs)

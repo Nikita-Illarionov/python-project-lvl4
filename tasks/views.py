@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .filters import TasksFilter
+from django.contrib import messages
 
 
 
@@ -41,6 +42,7 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'tasks/create.html'
     success_url = '/tasks/'
     login_url = 'login'
+    success_message = 'Задача успешно создана'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -48,19 +50,21 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 
-class UpdateTask(LoginRequiredMixin, UpdateView):
+class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/update.html'
     form_class = TasksForm
     login_url = 'login'
+    success_message = 'Задача успешно обновлена'
 
 
 
-class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Tasks
     template_name = 'tasks/delete.html'
     success_url = '/tasks/'
     login_url = 'tasks'
+    success_message = 'Задача успешно удалена'
 
     def test_func(self):
         obj = self.get_object()
@@ -68,3 +72,9 @@ class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect(self.login_url)
+
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(DeleteTask, self).delete(request, *args, **kwargs)
+

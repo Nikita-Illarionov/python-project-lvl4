@@ -3,12 +3,12 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, UpdateView, DeleteView
 from django.urls import reverse
 from .models import CustomUser
-
-
+from django.db import models
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
@@ -44,6 +44,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'delete_user.html'
     success_url = '/users/'
     login_url = 'users'
+    error_url = '/statuses/'
 
     def test_func(self):
         obj = self.get_object()
@@ -51,6 +52,27 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect(self.login_url)
+
+
+    def get_error_url(self):
+        if self.error_url:
+            return self.error_url.format(**self.object.__dict__)
+        else:
+            raise ImproperlyConfigured(
+               "No error URL to redirect to. Provide a error_url.")
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect. 
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        error_url = self.get_error_url()
+        try:
+             self.object.delete()
+             return HttpResponseRedirect(success_url)
+        except models.ProtectedError:
+             return HttpResponseRedirect(error_url)
 
 
 
@@ -68,6 +90,7 @@ class RegisterView(FormView):
     def form_valid(self, form):
         # Создаём пользователя, если данные в форму были введены корректно.
         form.save()
+        messages.success(self.request, 'Пользователь успешно зарегистрирован')
 
         # Вызываем метод базового класса
         return super(RegisterView, self).form_valid(form)
@@ -92,6 +115,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         # Получаем объект пользователя на основе введённых в форму данных.
+        messages.success(self.request, 'Вы залогинены')
         self.user = form.get_user()
 
         # Выполняем аутентификацию пользователя.
@@ -108,6 +132,7 @@ class LogoutView(View):
     def get(self, request):
         # Выполняем выход для пользователя, запросившего данное представление.
         logout(request)
+        messages.info(self.request, 'Вы разлогинены')
 
         # После чего, перенаправляем пользователя на главную страницу.
         return HttpResponseRedirect("/")

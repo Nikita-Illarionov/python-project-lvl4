@@ -8,9 +8,9 @@ from labels.models import Labels
 class Tasks(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    status = models.ForeignKey(Statuses, on_delete=models.CASCADE)
-    assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="task_assigned_to")
-    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="task_created_by")
+    status = models.ForeignKey(Statuses, on_delete=models.PROTECT)
+    assigned_to = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="task_assigned_to")
+    creator = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="task_created_by")
     labels = models.ManyToManyField(Labels)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -20,3 +20,6 @@ class Tasks(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('tasks')

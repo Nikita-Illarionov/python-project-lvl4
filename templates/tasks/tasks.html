@@ -5,6 +5,7 @@
 {% block content %}
 
 <div class="container" style="color: white">
+      {% include 'messages.html' %}
       <h1 class="my-4 text-center">Задачи</h1>
       <a href="{% url 'create_task' %}"><button class="btn btn-info">Создать задачу</button></a>
 	<table class="table mx-auto my-1 table-bordered table-hover table-dark">
