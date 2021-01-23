@@ -1,13 +1,4 @@
-{% extends 'task_manager/layout.html' %}
+{% extends 'deleting_form.html' %}
 
-{% block title %}Удаление задачи{% endblock %}
-
-{% block content %}
-<div class="features">
-    <h1>Удалить задачу</h1>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Удалить</button>
-    </form>
-</div>
-{% endblock %}
+{% block delete_title %}Удаление задачи{% endblock %}
+{% block delete_question %}Вы действительно хотите удалить эту задачу?{% endblock %}

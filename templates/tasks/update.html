@@ -1,58 +1,6 @@
-{% extends 'task_manager/layout.html' %}
+{% extends 'tasks/creating_and_updating_form.html' %}
+{% load i18n %}
 
-{% block title %}Изменение задачи{% endblock %}
-
-{% block content %}
-<div class="container" style="width: 50%; color: white">
-  <div class="card bg-dark my-5">
-    <div class="card-header">
-      <h3>Изменение задачи</h3>
-    </div>
-    <div class="card-body">
-	  <form method="post" class="form">
-	    {% csrf_token %}
-	    {% if form.errors %}
-	    <div class="alert alert-danger" role="alert">
-	      {{ form.errors }}
-	    </div>
-	    {% endif %}
-	    <div class="form-group">
-	      <label for="name">Имя</label>
-	      <input type="text" class="form-control" name="name" id="name" placeholder="Имя" value="{{ form.name.value|default_if_none:'' }}">
-	    </div>
-	    <div class="form-group">
-	      <label for="description">Описание</label>
-	      <textarea class="form-control" id="description" name="description" placeholder="Описание" rows=3>{{ form.description.value|default_if_none:'' }}</textarea>
-	    </div>
-	    <div class="row">
-	      <div class="form-group col-md-4">
-		<label for="assigned_to">Исполнитель</label>
-		<select class="form-control" id="assigned_to" name="assigned_to">
-		{% for assignee in form.assigned_to %}
-		  {{ assignee }}
-		{% endfor %}
-		</select>
-	      </div>
-	      <div class="form-group col-md-4">
-		<label for="status">Status</label>
-		<select class="form-control" id="status" name="status">
-		{% for st in form.status %}
-		  {{ st }}
-		{% endfor %}
-		</select>
-	      </div>
-	      <div class="form-group">
-		<label for="labels">Метки</label>
-		<select name="labels" class="form-control" id="labels" title="" multiple>
-		{% for st in form.labels %}
-		  {{ st }}
-		{% endfor %}}
-		</select>
-	      </div>
-	    </div>
-	    <button type="submit" class="btn btn-primary">Save</button>
-	  </form>
-    </div>
-  </div>
-</div>
-{% endblock %}
+{% block subtitle %}Изменение задачи{% endblock %}
+{% block title_in_body %}Изменение задачи{% endblock %}
+{% block buttom_name %}{% trans 'Change' %}{% endblock %}

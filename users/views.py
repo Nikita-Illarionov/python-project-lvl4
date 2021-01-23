@@ -44,7 +44,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'delete_user.html'
     success_url = '/users/'
     login_url = 'users'
-    error_url = '/statuses/'
+    error_url = '/users/'
 
     def test_func(self):
         obj = self.get_object()

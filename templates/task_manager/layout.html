@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,20 +30,20 @@
     <body class="bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-                <a href="/"><h2 class="navbar-brand">Менеджер задач</h2></a>
+                <a href="/"><h2 class="navbar-brand">{% trans 'TaskMeneger' %}</h2></a>
 		    <ul class="navbar-nav mr-auto">
 		        <li>
-		            <a href="{% url 'users' %}" class="nav-link">Пользователи</a>
+		            <a href="{% url 'users' %}" class="nav-link">{% trans 'Users' %}</a>
 		        </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a href="{% url 'labels' %}" class="nav-link">Метки</a>
+                            <a href="{% url 'labels' %}" class="nav-link">{% trans 'Labels' %}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'statuses' %}" class="nav-link">Статусы</a>
+                            <a href="{% url 'statuses' %}" class="nav-link">{% trans 'Statuses' %}</a>
                         </li>
                         <li>
-                            <a href="{% url 'tasks' %}" class="nav-link">Задачи</a>
+                            <a href="{% url 'tasks' %}" class="nav-link">{% trans 'Tasks' %}</a>
                         </li>
                         {% endif %}
 		    </ul>
@@ -49,14 +51,14 @@
                     <ul class="navbar-nav ml-auto">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a href="{% url 'logout' %}" class="nav-link">Выход</a>
+                            <a href="{% url 'logout' %}" class="nav-link">{% trans 'Logout' %}</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a href="{% url 'login' %}" class="nav-link">Вход</a>
+                            <a href="{% url 'login' %}" class="nav-link">{% trans 'Login' %}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'register' %}" class="nav-link">Регистрация</a>
+                            <a href="{% url 'register' %}" class="nav-link">{% trans 'Register' %}</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -65,6 +67,11 @@
         </nav>
         
         {% block content %}
-        {% endblock %}     
+        {% endblock %}
+        <footer class="mastfoot mt-auto">
+            <div class="inner cover my-5 mx-auto text-center" style="color: white; width: 50%;">
+                <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+        </footer>
     </body>
 </html>

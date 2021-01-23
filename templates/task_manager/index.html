@@ -1,4 +1,5 @@
 {% extends 'task_manager/layout.html' %}
+{% load i18n %}
 
 {% block title %}Home{% endblock %}
 
@@ -6,12 +7,12 @@
 {% block content %}
      <main role="main" class="inner cover my-5 mx-auto text-center" style="color: white; width: 50%;">
         {% include 'messages.html' %}
-        <h1 class="cover-heading">Это менеджер задач.</h1>
-        <p class="lead">Авторизованные пользователи могут управлять задачами, статусами, метками (просмотр, создание, редактирование, удаление). Неавторизованные пользователи могут просматривать только список зарегестрированных пользователей.</p>
+        <h1 class="cover-heading">{{ hello }}</h1>
+        <p class="lead">{% trans 'Explanation' %}</p>
         {% if not user.is_authenticated %}
         <p class="lead">Первый раз на сайте? Пройдите форму регистрации:</p>
         <p class="lead">
-          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">Регистрация</a>
+          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">{% trans 'Register' %}</a>
         </p>
         {% endif %}
       </main>

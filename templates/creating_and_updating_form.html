@@ -1,22 +1,19 @@
 {% extends 'task_manager/layout.html' %}
-{% load bootstrap4 %}
-{% load i18n %}
 
-{% block title %}Вход{% endblock %}
+{% block title %}{% block subtitle %}{% endblock %}{% endblock %}
 
 
 {% block content %}
 <div class="container" style="width: 50%; color: white">
-  {% include 'messages.html' %}
   <div class="card bg-dark my-5">
     <div class="card-header">
-      <h3>{% trans 'Login' %}</h3>
+      <h3>{% block title_in_body %}{% endblock %}</h3>
     </div>
     <div class="card-body">
       <form class="form" method="post">
         {% csrf_token %}
-        {% bootstrap_form form %}
-        <button class="btn btn-primary" type="submit">{% trans 'Logout' %}</button>
+        {{ form.name }}
+        <button class="btn btn-primary mt-3" type="submit">{% block buttom_name %}{% endblock %}</button>
       </form>
     </div>
   </div>

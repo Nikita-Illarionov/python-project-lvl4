@@ -1,5 +1,6 @@
 {% extends 'task_manager/layout.html' %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block title %}Регистрация{% endblock %}
 
@@ -8,13 +9,13 @@
 <div class="container" style="width: 50%; color: white">
   <div class="card bg-dark my-5">
     <div class="card-header">
-      <h3>Регистрация</h3>
+      <h3>{% trans 'Register' %}</h3>
     </div>
     <div class="card-body">
       <form class="form" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-primary" type="submit">Регистрация</button>
+        <button class="btn btn-primary" type="submit">{% trans 'Register' %}</button>
       </form>
     </div>
   </div>

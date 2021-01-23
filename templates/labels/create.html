@@ -1,21 +1,6 @@
-{% extends 'task_manager/layout.html' %}
+{% extends 'creating_and_updating_form.html' %}
+{% load i18n %}
 
-{% block title %}Добавление метки{% endblock %}
-
-
-{% block content %}
-<div class="container" style="width: 50%; color: white">
-  <div class="card bg-dark my-5">
-    <div class="card-header">
-      <h3>Добавить метку</h3>
-    </div>
-    <div class="card-body">
-      <form class="form" method="post">
-        {% csrf_token %}
-        {{ form.name }}
-        <button class="btn btn-primary mt-3" type="submit">Добавить</button>
-      </form>
-    </div>
-  </div>
-</div>
-{% endblock %}
+{% block subtitle %}Создание метки{% endblock %}
+{% block title_in_body %}Создание метки{% endblock %}
+{% block buttom_name %}{% trans 'Create' %}{% endblock %}
