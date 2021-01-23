@@ -12,7 +12,7 @@ from django.contrib import messages
 
 class TasksList(LoginRequiredMixin, ListView):
     model = Tasks
-    template_name = "tasks/tasks.html"
+    template_name = "tasks/main.html"
     context_object_name = 'tasks'
     login_url = 'login'
 

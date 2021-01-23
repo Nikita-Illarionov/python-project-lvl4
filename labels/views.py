@@ -11,7 +11,7 @@ from django.contrib import messages
 
 class LabelView(LoginRequiredMixin, ListView):
     model = Labels
-    template_name = "labels/labels.html"
+    template_name = "labels/main.html"
     context_object_name = 'labels'
     login_url = 'login'
 

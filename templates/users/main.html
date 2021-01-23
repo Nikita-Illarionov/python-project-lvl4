@@ -1,16 +1,16 @@
 {% extends 'task_manager/layout.html' %}
-
-{% block title %}Users{% endblock %}
+{% load i18n %}
+{% block title %}{% trans 'Users' %}{% endblock %}
 
 {% block content %}
-        <h1 class="my-4 text-center" style="color: white">Пользователи</h1>
+        <h1 class="my-4 text-center" style="color: white">{% trans 'Users' %}</h1>
         <table class="table mx-auto my-5 table-bordered table-hover table-dark" style="width: 70%;">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Имя пользователя</th>
-                    <th>Полное имя</th>
-                    <th>Дата создания</th>
+                    <th>{% trans 'UserName' %}</th>
+                    <th>{% trans 'FullName' %}</th>
+                    <th>{% trans 'CreationData' %}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,8 +23,8 @@
                     <td>{{ us.get_full_name }}</td>
                     <td>{{ us.date_joined }}</td>
                     <td>
-                        <a href="{% url 'update_user' us.id %}"><button class="btn btn-info btn-sm">Изменить</button></a>
-                        <a href="{% url 'delete_user' us.id %}"><button class="btn btn-danger btn-sm">Удалить</button></a><br>
+                        <a href="{% url 'update_user' us.id %}"><button class="btn btn-info btn-sm">{% trans 'Change' %}</button></a>
+                        <a href="{% url 'delete_user' us.id %}"><button class="btn btn-danger btn-sm">{% trans 'Delete' %}</button></a><br>
                     </td>
                 </tr>
                 {% endfor %}

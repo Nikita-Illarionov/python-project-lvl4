@@ -12,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 class StatusView(LoginRequiredMixin, ListView):
     model = Statuses
-    template_name = "statuses/statuses.html"
+    template_name = "statuses/main.html"
     context_object_name = 'statuses'
     form_class = StatusForm
     login_url = 'login'

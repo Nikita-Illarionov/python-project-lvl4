@@ -10,9 +10,9 @@
         <h1 class="cover-heading">{{ hello }}</h1>
         <p class="lead">{% trans 'Explanation' %}</p>
         {% if not user.is_authenticated %}
-        <p class="lead">Первый раз на сайте? Пройдите форму регистрации:</p>
+        <p class="lead">{% trans 'ForUnknownUsers' %}</p>
         <p class="lead">
-          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">{% trans 'Register' %}</a>
+          <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">{% trans 'Registration' %}</a>
         </p>
         {% endif %}
       </main>

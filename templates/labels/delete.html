@@ -1,4 +1,5 @@
 {% extends 'deleting_form.html' %}
+{% load i18n %}
 
-{% block delete_title %}Удаление метки{% endblock %}
-{% block delete_question %}Вы действительно хотите удалить эту метку?{% endblock %}
+{% block delete_title %}{% trans 'DeleteLabelTitle' %}{% endblock %}
+{% block delete_question %}{% trans 'DeleteLabelQuestion' %}{% endblock %}

@@ -17,14 +17,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 def user_table(request):
     users = CustomUser.objects.all()
     
-    return render(request, 'users.html', {'users': users})
+    return render(request, 'users/main.html', {'users': users})
 
 
 
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CustomUser
-    template_name = 'registration/register.html'
+    template_name = 'users/update.html'
     form_class = RegisterForm
     success_url = '/users/'
     login_url = 'users'
@@ -41,7 +41,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
-    template_name = 'delete_user.html'
+    template_name = 'users/delete.html'
     success_url = '/users/'
     login_url = 'users'
     error_url = '/users/'
@@ -85,7 +85,7 @@ class RegisterView(FormView):
     success_url = "/login/"
 
     # Шаблон, который будет использоваться при отображении представления.
-    template_name = "registration/register.html"
+    template_name = "users/create.html"
 
     def form_valid(self, form):
         # Создаём пользователя, если данные в форму были введены корректно.
@@ -108,7 +108,7 @@ class LoginView(FormView):
     form_class = AuthenticationForm
 
     # Аналогично регистрации, только используем шаблон аутентификации.
-    template_name = "registration/login.html"
+    template_name = "users/login.html"
 
     # В случае успеха перенаправим на главную.
     success_url = "/"

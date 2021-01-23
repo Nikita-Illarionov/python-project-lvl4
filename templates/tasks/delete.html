@@ -1,4 +1,4 @@
 {% extends 'deleting_form.html' %}
-
-{% block delete_title %}Удаление задачи{% endblock %}
-{% block delete_question %}Вы действительно хотите удалить эту задачу?{% endblock %}
+{% load i18n %}
+{% block delete_title %}{% 'DeleteTaskTitle' %}{% endblock %}
+{% block delete_question %}{% 'DeleteTaskQuestion' %}{% endblock %}
