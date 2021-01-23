@@ -143,12 +143,12 @@ msgstr "Задачи"
 
 #: templates/task_manager/layout.html:54 templates/users/login.html:19
 msgid "Logout"
-msgstr "Выход"
+msgstr "Выйти"
 
 #: templates/task_manager/layout.html:58 templates/users/login.html:5
 #: templates/users/login.html:13
 msgid "Login"
-msgstr "Вход"
+msgstr "Войти"
 
 #: templates/task_manager/layout.html:61 templates/users/create.html:18
 msgid "Register"
