@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Labels
 from .forms import LabelForm
-from django.views.generic import UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.http import HttpResponse, HttpResponseRedirect
@@ -17,21 +17,16 @@ class LabelView(LoginRequiredMixin, ListView):
 
 
 
-def create_label(request):
-    error = ''
-    if request.method == 'POST':
-        form = LabelForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Метка успешно создана')
-            return redirect('labels')
-        else:
-            error = 'Форма заполнена неверно'
+class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    """Task create view."""
 
+    model = Labels
+    form_class = LabelForm
+    template_name = 'labels/create.html'
+    success_url = '/labels/'
+    login_url = 'login'
+    success_message = 'Метка успешно создана'
 
-    form = LabelForm()
-    data = {'form': form, 'error': error}
-    return render(request, 'labels/create.html', data)
 
 
 

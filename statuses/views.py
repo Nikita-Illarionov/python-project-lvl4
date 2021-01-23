@@ -1,5 +1,5 @@
 from .models import Statuses
-from django.views.generic import UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .forms import StatusForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,20 +19,15 @@ class StatusView(LoginRequiredMixin, ListView):
 
 
 
-def create_status(request):
-    error = ''
-    if request.method == 'POST':
-        form = StatusForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Статус успешно создан')
-            return redirect('statuses')
-        else:
-            error = 'Форма заполнена неверно'
+class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    """Task create view."""
 
-    form = StatusForm()
-    data = {'form': form, 'error': error}
-    return render(request, 'statuses/create.html', data)
+    model = Statuses
+    form_class = StatusForm
+    template_name = 'statuses/create.html'
+    success_url = '/statuses/'
+    login_url = 'login'
+    success_message = 'Статус успешно создан'
 
 
 
