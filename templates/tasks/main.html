@@ -6,6 +6,50 @@
 
 <div class="container" style="color: white">
       {% include 'messages.html' %}
+      <form method="get">
+        <div class="form-group col-md-6">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+              {% for status in filter.form.status %}
+                {{ status }}
+              {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="label">Label</label>
+            <select class="form-control" id="labels" name="labels">
+              <option>------------
+              {% for label in filter.form.labels %}
+                {{ label }}
+              {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="label">Executor</label>
+            <select class="form-control" id="assigned_to" name="assigned_to">
+              {% for as in filter.form.assigned_to %}
+                {{ as }}
+              {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="creator">Creator</label>
+            {% for cr in filter.form.creator %}
+                {% if cr == user %}
+                    <input type="checkbox" id="self_task" name="self_task" value="on">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="form-group col-md-6">
+            <label for="creator">Creator</label>
+            {% if filter.form.creator == user %}
+            <input type="checkbox" id="self_task" name="self_task" value="on">
+            {% else %}
+            <input type="checkbox" id="self_task" name="self_task" value="off">
+            {% endif %}
+        </div>
+        <input type="submit" />
+      </form>	
       <h1 class="my-4 text-center">{% trans 'Tasks' %}</h1>
       <a href="{% url 'create_task' %}"><button class="btn btn-info">{% trans 'CreateTask' %}</button></a>
 	<table class="table mx-auto my-1 table-bordered table-hover table-dark">

@@ -8,10 +8,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .filters import TasksFilter
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django_filters.views import FilterView
 
 
 
-class TasksList(LoginRequiredMixin, ListView):
+class TasksList(LoginRequiredMixin, FilterView):
     model = Tasks
     template_name = "tasks/main.html"
     context_object_name = 'tasks'
@@ -23,12 +24,6 @@ class TasksList(LoginRequiredMixin, ListView):
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 
-    def get_queryset(self):
-        """Filter by tag if it is provided in GET parameters."""
-        queryset = Tasks.objects.all().order_by('-pk')
-        if self.request.GET.get('tasks'):
-            queryset = queryset.filter(tags__name=self.request.GET.get('tasks'))
-        return queryset
 
     def get_context_data(self, **kwargs):
         """Get filtered data if it's provided by requests."""
