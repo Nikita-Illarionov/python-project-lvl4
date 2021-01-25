@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-23 22:40+0300\n"
+"POT-Creation-Date: 2021-01-25 16:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,9 +19,31 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: labels/views.py:22 labels/views.py:40 labels/views.py:56 labels/views.py:74
+#: statuses/views.py:23 statuses/views.py:41 statuses/views.py:57
+#: statuses/views.py:74 tasks/views.py:50 tasks/views.py:69 tasks/views.py:85
+#: users/views.py:33 users/views.py:60
+msgid "NotLoginStatus"
+msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
+
+#: labels/views.py:80
+#| msgid "CannotDeleteUser"
+msgid "CannotDeleteLabel"
+msgstr "Невозможно удалить метку, потому что он используется"
+
+#: statuses/views.py:97
+#| msgid "CannotDeleteUser"
+msgid "CannotDeleteStatus"
+msgstr "Невозможно удалить статус, потому что он используется"
+
 #: task_manager/views.py:7
 msgid "Hello"
 msgstr "Это Менеджер Задач."
+
+#: tasks/views.py:93
+#| msgid "CannotDeleteUser"
+msgid "CannotDeleteTask"
+msgstr "Задачу может удалить только её автор"
 
 #: templates/deleting_form.html:11
 msgid "DeleteConfirm"
@@ -47,7 +68,7 @@ msgstr "Вы действительно хотите удалить эту ме�
 
 #: templates/labels/main.html:3 templates/statuses/main.html:3
 #: templates/task_manager/layout.html:36 templates/users/main.html:3
-#: templates/users/main.html:6
+#: templates/users/main.html:8
 msgid "Users"
 msgstr "Пользователи"
 
@@ -57,7 +78,6 @@ msgid "Labels"
 msgstr "Метки"
 
 #: templates/labels/main.html:9
-#| msgid "Labels"
 msgid "AddLabel"
 msgstr "Создать метку"
 
@@ -68,25 +88,25 @@ msgid "Name"
 msgstr "Имя"
 
 #: templates/labels/main.html:15 templates/statuses/main.html:15
-#: templates/tasks/main.html:18 templates/users/main.html:13
+#: templates/tasks/main.html:18 templates/users/main.html:15
 msgid "CreationData"
 msgstr "Дата создания"
 
 #: templates/labels/main.html:27 templates/labels/update.html:6
 #: templates/statuses/main.html:27 templates/statuses/update.html:6
 #: templates/tasks/main.html:34 templates/tasks/update.html:6
-#: templates/users/main.html:26 templates/users/update.html:18
+#: templates/users/main.html:28 templates/users/update.html:18
 msgid "Change"
 msgstr "Изменить"
 
 #: templates/labels/main.html:28 templates/statuses/main.html:28
-#: templates/tasks/main.html:35 templates/users/main.html:27
+#: templates/tasks/main.html:35 templates/users/main.html:29
 msgid "Delete"
 msgstr "Удалить"
 
 #: templates/labels/update.html:4 templates/labels/update.html:5
 msgid "ChangeLabelTitle"
-msgstr "Удаление метки"
+msgstr "Изменение метки"
 
 #: templates/statuses/create.html:4 templates/statuses/create.html:5
 msgid "CreateStatusTitle"
@@ -105,7 +125,6 @@ msgid "Statuses"
 msgstr "Статусы"
 
 #: templates/statuses/main.html:9
-#| msgid "Statuses"
 msgid "AddStatus"
 msgstr "Создать статус"
 
@@ -125,10 +144,8 @@ msgstr ""
 msgid "ForUnknownUsers"
 msgstr "Первый раз на сайте? Пройдите форму регистрации:"
 
-#: templates/task_manager/index.html:15 templates/users/create.html:5
-#: templates/users/create.html:12 templates/users/update.html:5
-#: templates/users/update.html:12
-#| msgid "Register"
+#: templates/task_manager/index.html:15 templates/task_manager/layout.html:61
+#: templates/users/create.html:5 templates/users/create.html:12
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -141,18 +158,14 @@ msgstr "Менеджер задач"
 msgid "Tasks"
 msgstr "Задачи"
 
-#: templates/task_manager/layout.html:54 templates/users/login.html:19
+#: templates/task_manager/layout.html:54
 msgid "Logout"
-msgstr "Выйти"
+msgstr "Выход"
 
 #: templates/task_manager/layout.html:58 templates/users/login.html:5
 #: templates/users/login.html:13
 msgid "Login"
-msgstr "Войти"
-
-#: templates/task_manager/layout.html:61 templates/users/create.html:18
-msgid "Register"
-msgstr "Зарегистрировать"
+msgstr "Вход"
 
 #: templates/tasks/create.html:4 templates/tasks/create.html:5
 msgid "CreateTaskTitle"
@@ -169,9 +182,18 @@ msgstr "Исполнитель"
 
 #: templates/tasks/creating_and_updating_form.html:37
 #: templates/tasks/main.html:17
-#| msgid "Statuses"
 msgid "Status"
 msgstr "Статус"
+
+#: templates/tasks/delete.html:3
+#| msgid "DeleteStatusTitle"
+msgid "DeleteTaskTitle"
+msgstr "Удаление задачи"
+
+#: templates/tasks/delete.html:4
+#| msgid "DeleteStatusQuestion"
+msgid "DeleteTaskQuestion"
+msgstr "Вы действительно хотите удалить эту задачу"
 
 #: templates/tasks/main.html:10
 msgid "CreateTask"
@@ -183,21 +205,40 @@ msgstr "Автор"
 
 #: templates/tasks/update.html:4 templates/tasks/update.html:5
 msgid "ChangeTaskTitle"
-msgstr "Создание задачи"
+msgstr "Изменение задачи"
+
+#: templates/users/create.html:18
+msgid "Register"
+msgstr "Зарегистрировать"
 
 #: templates/users/delete.html:3
 msgid "DeleteUserTitle"
-msgstr "Удаление задачи"
+msgstr "Удаление пользователя"
 
 #: templates/users/delete.html:4
 msgid "DeleteUserQuestion"
 msgstr "Вы действительно хотите удалить себя?"
 
-#: templates/users/main.html:11
-#| msgid "Users"
+#: templates/users/login.html:19
+msgid "ToLogin"
+msgstr "Войти"
+
+#: templates/users/main.html:13
 msgid "UserName"
 msgstr "Имя пользователя"
 
-#: templates/users/main.html:12
+#: templates/users/main.html:14
 msgid "FullName"
 msgstr "Полное имя"
+
+#: templates/users/update.html:5 templates/users/update.html:12
+msgid "ChangeUserTitle"
+msgstr "Изменение пользователя"
+
+#: users/views.py:37 users/views.py:64
+msgid "UserNoPermission"
+msgstr "У вас нет прав для изменения другого пользователя."
+
+#: users/views.py:94
+msgid "CannotDeleteUser"
+msgstr "Невозможно удалить пользователя, потому что он используется"

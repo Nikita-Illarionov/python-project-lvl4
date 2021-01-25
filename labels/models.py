@@ -16,9 +16,3 @@ class Labels(models.Model):
 
     def get_absolute_url(self):
         return reverse('labels')
-
-    def delete(self, *args, **kwargs):
-        if self.tasks_set.count() >  0:
-            return redirect(reverse('labels'))
-        else:
-            super(Labels, self).delete(*args, **kwargs)

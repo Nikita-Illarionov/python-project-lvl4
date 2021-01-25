@@ -7,6 +7,7 @@ from django.db import models
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import ugettext as _
 
 
 
@@ -16,6 +17,12 @@ class StatusView(LoginRequiredMixin, ListView):
     context_object_name = 'statuses'
     form_class = StatusForm
     login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 
@@ -29,6 +36,13 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     success_message = 'Статус успешно создан'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+
 
 
 class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -37,6 +51,13 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'statuses/update.html'
     form_class = StatusForm
     login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 
@@ -47,6 +68,12 @@ class DeleteStatus(LoginRequiredMixin, DeleteView):
     success_url = '/statuses/'
     login_url = 'tasks'
     error_url = '/statuses/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_error_url(self):
         if self.error_url:
@@ -67,4 +94,5 @@ class DeleteStatus(LoginRequiredMixin, DeleteView):
              messages.success(request, 'Статус успешно удалён')
              return HttpResponseRedirect(success_url)
         except models.ProtectedError:
+             messages.error(request, _('CannotDeleteStatus'))
              return HttpResponseRedirect(error_url)

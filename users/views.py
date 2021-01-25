@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, UpdateView, DeleteView, ListView
 from django.urls import reverse
 from .models import CustomUser
 from django.db import models
@@ -10,15 +10,14 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils.translation import ugettext as _
 
 
 
-
-def user_table(request):
-    users = CustomUser.objects.all()
-    
-    return render(request, 'users/main.html', {'users': users})
-
+class UserList(ListView):
+    model = CustomUser
+    template_name = "users/main.html"
+    context_object_name = 'users'
 
 
 
@@ -27,8 +26,18 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'users/update.html'
     form_class = RegisterForm
     success_url = '/users/'
-    login_url = 'users'
-    
+    login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        user_test_result = self.get_test_func()()
+        if not user_test_result:
+            messages.error(request, _('UserNoPermission'))
+            return redirect(reverse('users'))
+        return super().dispatch(request, *args, **kwargs)
+
     def test_func(self):
         obj = self.get_object()
         return obj == self.request.user
@@ -43,8 +52,18 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
     template_name = 'users/delete.html'
     success_url = '/users/'
-    login_url = 'users'
+    login_url = 'login'
     error_url = '/users/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        user_test_result = self.get_test_func()()
+        if not user_test_result:
+            messages.error(request, _('UserNoPermission'))
+            return redirect(reverse('users'))
+        return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
         obj = self.get_object()
@@ -72,6 +91,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
              self.object.delete()
              return HttpResponseRedirect(success_url)
         except models.ProtectedError:
+             messages.error(request, _('CannotDeleteUser'))
              return HttpResponseRedirect(error_url)
 
 

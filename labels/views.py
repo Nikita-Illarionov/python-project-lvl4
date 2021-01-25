@@ -7,6 +7,8 @@ from django.db import models
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.utils.translation import ugettext as _
+from django.urls import reverse
 
 
 class LabelView(LoginRequiredMixin, ListView):
@@ -14,6 +16,12 @@ class LabelView(LoginRequiredMixin, ListView):
     template_name = "labels/main.html"
     context_object_name = 'labels'
     login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 
@@ -27,6 +35,12 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     success_message = 'Метка успешно создана'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 
@@ -36,6 +50,12 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = LabelForm
     login_url = 'login'
     success_message = 'Метка успешно обновлена'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 
@@ -49,7 +69,15 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = 'Метка успешно удалена'
     error_url = '/statuses/'
 
-    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs):
+        if self.get_object().tasks_set.exists() > 0:
+            messages.error(request, _('CannotDeleteLabel'))
+            return redirect(reverse('labels'))
         messages.success(self.request, self.success_message)
         return super(DeleteLabel, self).delete(request, *args, **kwargs)

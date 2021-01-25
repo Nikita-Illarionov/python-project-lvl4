@@ -3,8 +3,10 @@
 {% block title %}{% trans 'Users' %}{% endblock %}
 
 {% block content %}
+      <div class="mx-auto" style="width: 70%">
+        {% include 'messages.html' %}
         <h1 class="my-4 text-center" style="color: white">{% trans 'Users' %}</h1>
-        <table class="table mx-auto my-5 table-bordered table-hover table-dark" style="width: 70%;">
+        <table class="table mx-auto my-5 table-bordered table-hover table-dark">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -30,4 +32,5 @@
                 {% endfor %}
             </tbody>
         </table>
+      </div>
 {% endblock %}
