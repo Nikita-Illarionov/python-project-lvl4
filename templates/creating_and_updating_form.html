@@ -12,8 +12,10 @@
     <div class="card-body">
       <form class="form" method="post">
         {% csrf_token %}
-        <label for="name">{% trans 'Name' %}</label>
-        {{ form.name }}
+        <div class="form-group">
+	      <label for="name">{% trans 'Name' %}</label>
+	      <input type="text" class="form-control" name="name" id="name" placeholder="Имя" value="{{ form.name.value|default_if_none:''}}">
+	</div>
         <button class="btn btn-primary mt-3" type="submit">{% block buttom_name %}{% endblock %}</button>
       </form>
     </div>

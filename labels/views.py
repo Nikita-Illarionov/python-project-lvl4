@@ -29,7 +29,8 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Labels
-    form_class = LabelForm
+    fields = ['name']
+    #form_class = LabelForm
     template_name = 'labels/create.html'
     success_url = '/labels/'
     login_url = 'login'
