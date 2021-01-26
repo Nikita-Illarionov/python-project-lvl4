@@ -50,7 +50,7 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'labels/update.html'
     form_class = LabelForm
     login_url = 'login'
-    success_message = 'Метка успешно обновлена'
+    success_message = 'Метка успешно изменена'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:

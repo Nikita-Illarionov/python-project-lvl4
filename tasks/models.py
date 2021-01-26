@@ -12,7 +12,7 @@ class Tasks(models.Model):
     status = models.ForeignKey(Statuses, on_delete=models.PROTECT)
     executor = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="task_executor")
     creator = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="task_created_by")
-    label = models.ManyToManyField(Labels)
+    label = models.ManyToManyField(Labels, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta(object):
