@@ -67,7 +67,7 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'tasks/update.html'
     form_class = TasksForm
     login_url = 'login'
-    success_message = 'Задача успешно обновлена'
+    success_message = 'Задача успешно изменена'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
