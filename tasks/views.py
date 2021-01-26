@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Tasks
 from .forms import TasksForm
-from django.views.generic import UpdateView, DeleteView, ListView, CreateView
+from django.views.generic import UpdateView, DeleteView, ListView, CreateView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -27,7 +27,16 @@ class TasksList(LoginRequiredMixin, FilterView):
 
 
 
+class ShowTask(LoginRequiredMixin, DetailView):
+    model = Tasks
+    template_name = 'tasks/detail.html'
+    login_url = 'login'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
 
 
 
