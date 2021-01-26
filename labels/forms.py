@@ -7,4 +7,5 @@ class LabelForm(ModelForm):
         model = Labels
         fields = ['name']
 
-        widgets = {'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'})}
+        widgets = {'name': TextInput(attrs={'class': 'form-control',
+                                            'placeholder': 'Имя'})}

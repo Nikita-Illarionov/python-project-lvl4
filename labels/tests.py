@@ -23,15 +23,15 @@ class LabelTest(TestCase):
         # self.assertTrue(isinstance(label, Labels))
         # self.assertEqual(label.name, 'test_label')
         self.assertEqual(Labels.objects.count(), 1)
-        
 
     def test_update_label(self):
-        
         response = self.client.post('/login/', self.credentials, follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         label = self.create_label()
-        response = self.client.post(reverse('update_label', kwargs={'pk': label.id}), {'name': 'test_label1'})
+        response = self.client.post(reverse('update_label',
+                                    kwargs={'pk': label.id}),
+                                    {'name': 'test_label1'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('labels'))
         label.refresh_from_db()
@@ -43,7 +43,8 @@ class LabelTest(TestCase):
         self.assertTrue(response.context['user'].is_active)
         label = self.create_label()
         self.assertEqual(Labels.objects.count(), 1)
-        response = self.client.post(reverse('delete_label', kwargs={'pk': label.id}))
+        response = self.client.post(reverse('delete_label',
+                                            kwargs={'pk': label.id}))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('labels'))
         self.assertEqual(Labels.objects.count(), 0)

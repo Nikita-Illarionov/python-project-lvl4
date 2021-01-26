@@ -1,10 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .models import Labels
 from .forms import LabelForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import models
-from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -24,13 +22,12 @@ class LabelView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-
 class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Labels
     fields = ['name']
-    #form_class = LabelForm
+    # form_class = LabelForm
     template_name = 'labels/create.html'
     success_url = '/labels/'
     login_url = 'login'
@@ -41,8 +38,6 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             messages.error(request, _('NotLoginStatus'))
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
-
 
 
 class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -57,8 +52,6 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             messages.error(request, _('NotLoginStatus'))
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
-
 
 
 class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):

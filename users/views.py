@@ -1,18 +1,19 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, UpdateView, DeleteView, ListView
+from django.contrib.auth import login, logout
+from django.shortcuts import redirect
+from django.views.generic import UpdateView, DeleteView, ListView
 from django.urls import reverse
 from .models import CustomUser
 from django.db import models
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.translation import ugettext as _
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic.base import View
+from django.core.exceptions import ImproperlyConfigured
 
 
 class UserList(ListView):
@@ -21,8 +22,8 @@ class UserList(ListView):
     context_object_name = 'users'
 
 
-
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
+                     SuccessMessageMixin, UpdateView):
     model = CustomUser
     template_name = 'users/update.html'
     form_class = RegisterForm
@@ -46,8 +47,6 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def handle_no_permission(self):
         return redirect(self.login_url)
-
-
 
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -74,7 +73,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         return redirect(self.login_url)
 
-
     def get_error_url(self):
         if self.error_url:
             return self.error_url.format(**self.object.__dict__)
@@ -83,31 +81,21 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
                "No error URL to redirect to. Provide a error_url.")
 
     def delete(self, request, *args, **kwargs):
-        """
-        Call the delete() method on the fetched object and then redirect. 
-        """
         self.object = self.get_object()
         success_url = self.get_success_url()
         error_url = self.get_error_url()
         try:
-             self.object.delete()
-             messages.success(request, 'Пользователь успешно удалён')
-             return HttpResponseRedirect(success_url)
+            self.object.delete()
+            messages.success(request, 'Пользователь успешно удалён')
+            return HttpResponseRedirect(success_url)
         except models.ProtectedError:
-             messages.error(request, _('CannotDeleteUser'))
-             return HttpResponseRedirect(error_url)
-
-
+            messages.error(request, _('CannotDeleteUser'))
+            return HttpResponseRedirect(error_url)
 
 
 class RegisterView(FormView):
     form_class = RegisterForm
-
-    # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
-    # В данном случае указана ссылка на страницу входа для зарегистрированных пользователей.
     success_url = "/login/"
-
-    # Шаблон, который будет использоваться при отображении представления.
     template_name = "users/create.html"
 
     def form_valid(self, form):
@@ -118,14 +106,6 @@ class RegisterView(FormView):
         # Вызываем метод базового класса
         return super(RegisterView, self).form_valid(form)
 
-
-
-# Опять же, спасибо django за готовую форму аутентификации.
-from django.contrib.auth.forms import AuthenticationForm
-
-# Функция для установки сессионного ключа.
-# По нему django будет определять, выполнил ли вход пользователь.
-from django.contrib.auth import login
 
 class LoginView(FormView):
     form_class = AuthenticationForm
@@ -144,11 +124,6 @@ class LoginView(FormView):
         # Выполняем аутентификацию пользователя.
         login(self.request, self.user)
         return super(LoginView, self).form_valid(form)
-
-
-from django.http import HttpResponseRedirect
-from django.views.generic.base import View
-from django.contrib.auth import logout
 
 
 class LogoutView(View):

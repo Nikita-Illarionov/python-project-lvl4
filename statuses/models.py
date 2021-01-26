@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
 class Statuses(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -16,4 +15,3 @@ class Statuses(models.Model):
 
     def get_absolute_url(self):
         return reverse('statuses')
-

@@ -1,14 +1,13 @@
 from .models import Statuses
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .forms import StatusForm
-from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
-
+from django.core.exceptions import ImproperlyConfigured
 
 
 class StatusView(LoginRequiredMixin, ListView):
@@ -23,7 +22,6 @@ class StatusView(LoginRequiredMixin, ListView):
             messages.error(request, _('NotLoginStatus'))
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
 
 
 class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -43,8 +41,6 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-
-
 class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Statuses
     success_message = 'Статус успешно изменён'
@@ -57,8 +53,6 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             messages.error(request, _('NotLoginStatus'))
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
-
 
 
 class DeleteStatus(LoginRequiredMixin, DeleteView):
@@ -83,16 +77,13 @@ class DeleteStatus(LoginRequiredMixin, DeleteView):
                "No error URL to redirect to. Provide a error_url.")
 
     def delete(self, request, *args, **kwargs):
-        """
-        Call the delete() method on the fetched object and then redirect. 
-        """
         self.object = self.get_object()
         success_url = self.get_success_url()
         error_url = self.get_error_url()
         try:
-             self.object.delete()
-             messages.success(request, 'Статус успешно удалён')
-             return HttpResponseRedirect(success_url)
+            self.object.delete()
+            messages.success(request, 'Статус успешно удалён')
+            return HttpResponseRedirect(success_url)
         except models.ProtectedError:
-             messages.error(request, _('CannotDeleteStatus'))
-             return HttpResponseRedirect(error_url)
+            messages.error(request, _('CannotDeleteStatus'))
+            return HttpResponseRedirect(error_url)

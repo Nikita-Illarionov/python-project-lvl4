@@ -1,15 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .models import Tasks
 from .forms import TasksForm
-from django.views.generic import UpdateView, DeleteView, ListView, CreateView, DetailView
-from django.contrib.auth.models import User
+from django.views.generic import UpdateView, DeleteView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .filters import TasksFilter
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django_filters.views import FilterView
-
 
 
 class TasksList(LoginRequiredMixin, FilterView):
@@ -26,7 +24,6 @@ class TasksList(LoginRequiredMixin, FilterView):
         return super().dispatch(request, *args, **kwargs)
 
 
-
 class ShowTask(LoginRequiredMixin, DetailView):
     model = Tasks
     template_name = 'tasks/detail.html'
@@ -37,7 +34,6 @@ class ShowTask(LoginRequiredMixin, DetailView):
             messages.error(request, _('NotLoginStatus'))
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
 
 
 class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -61,7 +57,6 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
 
-
 class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/update.html'
@@ -76,9 +71,8 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-
-
-class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class DeleteTask(LoginRequiredMixin, UserPassesTestMixin,
+                 SuccessMessageMixin, DeleteView):
     model = Tasks
     template_name = 'tasks/delete.html'
     success_url = '/tasks/'
@@ -101,8 +95,6 @@ class DeleteTask(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, D
     def handle_no_permission(self):
         return redirect(self.login_url)
 
-    
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(DeleteTask, self).delete(request, *args, **kwargs)
-
