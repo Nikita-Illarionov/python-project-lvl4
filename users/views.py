@@ -77,8 +77,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.error_url:
             return self.error_url.format(**self.object.__dict__)
         else:
-            raise ImproperlyConfigured(
-               "No error URL to redirect to. Provide a error_url.")
+            raise ImproperlyConfigured("No error URL to redirect to.")
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
