@@ -27,6 +27,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = RegisterForm
     success_url = '/users/'
     login_url = 'login'
+    success_message = 'Пользователь успешно изменён'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -54,6 +55,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/users/'
     login_url = 'login'
     error_url = '/users/'
+    success_message = 'Пользователь успешно удалён'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
