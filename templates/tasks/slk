@@ -12,7 +12,7 @@
       <form class="form-inline center" method="get">
         <div class="form-group">
           <label for="id_status">{% trans 'Status' %}</label>
-          <div class="ml-2 mr-3 my-2">
+          <div class="ml-2 mr-3">
             <select name="status" class="form-control" title="" id="id_status">
               {% for status in filter.form.status %}
                 {{ status }}
@@ -22,9 +22,9 @@
         </div>
         <div class="form-group">
           <label for="id_executor">{% trans 'Executor' %}</label>
-          <div class="mr-3 ml-2 my-2">
-            <select name="executor" class="form-control" title="" id="id_executor">
-              {% for ex in filter.form.executor %}
+          <div class="mr-3 ml-2">
+            <select name="assigned_to" class="form-control" title="" id="id_assigned_to">
+              {% for ex in filter.form.assigned_to %}
                 {{ ex }}
               {% endfor %}
             </select>
@@ -32,8 +32,8 @@
         </div>
         <div class="form-group">
           <label for="id_labels">{% trans 'Label' %}</label>
-          <div class="mr-3 ml-2 my-2">
-            <select name="label" class="form-control" title="" id="id_label">
+          <div class="mr-3 ml-2">
+            <select name="labels" class="form-control" title="" id="id_labels">
               <option>----------</option>
               {% for label in filter.form.labels %}
                 {{ label }}
@@ -42,14 +42,10 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="mr-3 ml-2 my-2">
-            <div class="form-check">
-              <input type="checkbox" name="self_task" class="form-check-input" id="id_self_task" value="{{ filter.form.self_task.value }}">
-              <label class="form-check-label" for="id_self_task">{% trans 'OnlyMyTask' %}</label>
-            </div>
-          </div>
+          <label for="self_task">{% trans 'OnlyMyTasks' %}</label>
+          <input type="checkbox" id="id_self_task" name="self_task" value="{{ filter.form.self_task.value }}">
         </div>
-        <input class="btn btn-info" type="submit" value="Показать">
+        <input class="btn btn-primary" type="submit" value="Показать">
       </forms>
 	<table class="table mx-auto my-1 table-bordered table-hover table-dark">
 	    <thead>
@@ -72,7 +68,7 @@
                     <td>{{ task.creator }}</td>
 		    <td>{{ task.status }}</td>
                     <td>{{ task.created_at }}</td>
-		    <td>{{ task.executor }}</td>
+		    <td>{{ task.assigned_to }}</td>
 		    <td>
 		        <a href="{% url 'update_task' task.id %}"><button class="btn btn-info btn-sm">{% trans 'Change' %}</button></a>
 		        <a href="{% url 'delete_task' task.id %}"><button class="btn btn-danger btn-sm">{% trans 'Delete' %}</button></a><br>

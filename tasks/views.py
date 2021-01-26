@@ -17,6 +17,7 @@ class TasksList(LoginRequiredMixin, FilterView):
     template_name = "tasks/main.html"
     context_object_name = 'tasks'
     login_url = 'login'
+    filterset_class = TasksFilter
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -25,14 +26,8 @@ class TasksList(LoginRequiredMixin, FilterView):
         return super().dispatch(request, *args, **kwargs)
 
 
-    def get_context_data(self, **kwargs):
-        """Get filtered data if it's provided by requests."""
-        context = super().get_context_data(**kwargs)
-        context['filter'] = TasksFilter(
-            self.request.GET,
-            queryset=self.get_queryset(),
-        )
-        return context
+
+
 
 
 
@@ -40,7 +35,7 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Tasks
-    fields = ['name', 'description', 'status', 'assigned_to', 'labels']
+    fields = ['name', 'description', 'status', 'executor', 'label']
     template_name = 'tasks/create.html'
     success_url = '/tasks/'
     login_url = 'login'

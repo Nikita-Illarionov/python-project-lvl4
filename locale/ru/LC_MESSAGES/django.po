@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 16:16+0300\n"
+"POT-Creation-Date: 2021-01-26 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,20 +19,18 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: labels/views.py:22 labels/views.py:40 labels/views.py:56 labels/views.py:74
+#: labels/views.py:22 labels/views.py:41 labels/views.py:57 labels/views.py:75
 #: statuses/views.py:23 statuses/views.py:41 statuses/views.py:57
-#: statuses/views.py:74 tasks/views.py:50 tasks/views.py:69 tasks/views.py:85
-#: users/views.py:33 users/views.py:60
+#: statuses/views.py:74 tasks/views.py:24 tasks/views.py:46 tasks/views.py:65
+#: tasks/views.py:81 users/views.py:33 users/views.py:60
 msgid "NotLoginStatus"
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
-#: labels/views.py:80
-#| msgid "CannotDeleteUser"
+#: labels/views.py:81
 msgid "CannotDeleteLabel"
 msgstr "Невозможно удалить метку, потому что он используется"
 
 #: statuses/views.py:97
-#| msgid "CannotDeleteUser"
 msgid "CannotDeleteStatus"
 msgstr "Невозможно удалить статус, потому что он используется"
 
@@ -40,10 +38,16 @@ msgstr "Невозможно удалить статус, потому что о
 msgid "Hello"
 msgstr "Это Менеджер Задач."
 
-#: tasks/views.py:93
-#| msgid "CannotDeleteUser"
+#: tasks/views.py:89
 msgid "CannotDeleteTask"
 msgstr "Задачу может удалить только её автор"
+
+#: templates/creating_and_updating_form.html:16 templates/labels/main.html:14
+#: templates/statuses/main.html:14
+#: templates/tasks/creating_and_updating_form.html:20
+#: templates/tasks/main.html:58
+msgid "Name"
+msgstr "Имя"
 
 #: templates/deleting_form.html:11
 msgid "DeleteConfirm"
@@ -81,26 +85,20 @@ msgstr "Метки"
 msgid "AddLabel"
 msgstr "Создать метку"
 
-#: templates/labels/main.html:14 templates/statuses/main.html:14
-#: templates/tasks/creating_and_updating_form.html:20
-#: templates/tasks/main.html:15
-msgid "Name"
-msgstr "Имя"
-
 #: templates/labels/main.html:15 templates/statuses/main.html:15
-#: templates/tasks/main.html:18 templates/users/main.html:15
+#: templates/tasks/main.html:61 templates/users/main.html:15
 msgid "CreationData"
 msgstr "Дата создания"
 
 #: templates/labels/main.html:27 templates/labels/update.html:6
 #: templates/statuses/main.html:27 templates/statuses/update.html:6
-#: templates/tasks/main.html:34 templates/tasks/update.html:6
+#: templates/tasks/main.html:77 templates/tasks/update.html:6
 #: templates/users/main.html:28 templates/users/update.html:18
 msgid "Change"
 msgstr "Изменить"
 
 #: templates/labels/main.html:28 templates/statuses/main.html:28
-#: templates/tasks/main.html:35 templates/users/main.html:29
+#: templates/tasks/main.html:78 templates/users/main.html:29
 msgid "Delete"
 msgstr "Удалить"
 
@@ -153,8 +151,8 @@ msgstr "Регистрация"
 msgid "TaskMeneger"
 msgstr "Менеджер задач"
 
-#: templates/task_manager/layout.html:46 templates/tasks/main.html:3
-#: templates/tasks/main.html:9
+#: templates/task_manager/layout.html:46 templates/tasks/main.html:4
+#: templates/tasks/main.html:10
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -176,30 +174,37 @@ msgid "Description"
 msgstr "Описание"
 
 #: templates/tasks/creating_and_updating_form.html:29
-#: templates/tasks/main.html:19
+#: templates/tasks/main.html:24 templates/tasks/main.html:62
 msgid "Executor"
 msgstr "Исполнитель"
 
 #: templates/tasks/creating_and_updating_form.html:37
-#: templates/tasks/main.html:17
+#: templates/tasks/main.html:14 templates/tasks/main.html:60
 msgid "Status"
 msgstr "Статус"
 
 #: templates/tasks/delete.html:3
-#| msgid "DeleteStatusTitle"
 msgid "DeleteTaskTitle"
 msgstr "Удаление задачи"
 
 #: templates/tasks/delete.html:4
-#| msgid "DeleteStatusQuestion"
 msgid "DeleteTaskQuestion"
 msgstr "Вы действительно хотите удалить эту задачу"
 
-#: templates/tasks/main.html:10
+#: templates/tasks/main.html:11
 msgid "CreateTask"
 msgstr "Создать задачу"
 
-#: templates/tasks/main.html:16
+#: templates/tasks/main.html:34
+#| msgid "Labels"
+msgid "Label"
+msgstr "Метка"
+
+#: templates/tasks/main.html:48
+msgid "OnlyMyTask"
+msgstr "Только свои задачи"
+
+#: templates/tasks/main.html:59
 msgid "Author"
 msgstr "Автор"
 
