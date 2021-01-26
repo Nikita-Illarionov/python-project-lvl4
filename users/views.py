@@ -11,6 +11,7 @@ from .forms import RegisterForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.translation import ugettext as _
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 
@@ -21,7 +22,7 @@ class UserList(ListView):
 
 
 
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = CustomUser
     template_name = 'users/update.html'
     form_class = RegisterForm
@@ -55,7 +56,6 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/users/'
     login_url = 'login'
     error_url = '/users/'
-    success_message = 'Пользователь успешно удалён'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -91,6 +91,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         error_url = self.get_error_url()
         try:
              self.object.delete()
+             messages.success(request, 'Пользователь успешно удалён')
              return HttpResponseRedirect(success_url)
         except models.ProtectedError:
              messages.error(request, _('CannotDeleteUser'))
