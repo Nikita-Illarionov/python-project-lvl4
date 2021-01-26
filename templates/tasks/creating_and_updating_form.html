@@ -26,10 +26,10 @@
 	    </div>
 	    <div class="row">
 	      <div class="form-group col-md-4">
-		<label for="assigned_to">{% trans 'Executor' %}</label>
-		<select class="form-control" id="assigned_to" name="assigned_to">
-		{% for assignee in form.assigned_to %}
-		  {{ assignee }}
+		<label for="executor">{% trans 'Executor' %}</label>
+		<select class="form-control" id="executor" name="executor">
+		{% for ex in form.executor %}
+		  {{ ex }}
 		{% endfor %}
 		</select>
 	      </div>
