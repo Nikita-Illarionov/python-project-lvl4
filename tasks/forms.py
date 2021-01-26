@@ -5,4 +5,4 @@ from django.forms import ModelForm, TextInput
 class TasksForm(ModelForm):
     class Meta:
         model = Tasks
-        fields = ['name', 'status', 'executor', 'label']
+        fields = ['name', 'description', 'status', 'executor', 'label']
