@@ -26,6 +26,8 @@ jobs:
         run: |
           make lint
           make test
+        env:
+          SECRET_KEY: secret
       - name: Publish Code Coverage to CodeClimate
         uses: paambaati/codeclimate-action@v2.7.4
         env:
