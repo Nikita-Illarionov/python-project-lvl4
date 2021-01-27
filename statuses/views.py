@@ -55,14 +55,13 @@ class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteStatus(LoginRequiredMixin, DeleteView):
     model = Statuses
     template_name = 'statuses/delete.html'
     field = ['name']
     success_url = '/statuses/'
     login_url = 'tasks'
     error_url = '/statuses/'
-    success_message = 'Статус успешно удалён'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -82,6 +81,7 @@ class DeleteStatus(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         error_url = self.get_error_url()
         try:
             self.object.delete()
+            messages.success(request, 'Статус успешно удалён')
             return HttpResponseRedirect(success_url)
         except models.ProtectedError:
             messages.error(request, _('CannotDeleteStatus'))
