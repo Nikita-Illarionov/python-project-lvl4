@@ -313,7 +313,7 @@ msgstr "Невозможно удалить пользователя, потом
 #: users/views.py:103
 #| msgid "Registration"
 msgid "SuccessRegistrationUser"
-msgstr "Пользователь успешно зарегестрирован"
+msgstr "Пользователь успешно зарегистрирован"
 
 #: users/views.py:120
 msgid "YouIn"
