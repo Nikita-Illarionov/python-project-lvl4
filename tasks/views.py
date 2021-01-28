@@ -44,7 +44,7 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'tasks/create.html'
     success_url = '/tasks/'
     login_url = 'login'
-    success_message = 'Задача успешно создана'
+    success_message = _('SuccessCreatingTask')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -62,7 +62,7 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'tasks/update.html'
     form_class = TasksForm
     login_url = 'login'
-    success_message = 'Задача успешно изменена'
+    success_message = _('SuccessChangingTask')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -77,7 +77,7 @@ class DeleteTask(LoginRequiredMixin, UserPassesTestMixin,
     template_name = 'tasks/delete.html'
     success_url = '/tasks/'
     login_url = 'tasks'
-    success_message = 'Задача успешно удалена'
+    success_message = _('SuccessDeletingTask')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:

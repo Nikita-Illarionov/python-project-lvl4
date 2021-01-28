@@ -29,7 +29,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
     form_class = RegisterForm
     success_url = '/users/'
     login_url = 'login'
-    success_message = 'Пользователь успешно изменён'
+    success_message = _('SuccessUpdateUser')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -85,7 +85,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         error_url = self.get_error_url()
         try:
             self.object.delete()
-            messages.success(request, 'Пользователь успешно удалён')
+            messages.success(request, _('SuccessDeletingUser'))
             return HttpResponseRedirect(success_url)
         except models.ProtectedError:
             messages.error(request, _('CannotDeleteUser'))
@@ -100,7 +100,7 @@ class RegisterView(FormView):
     def form_valid(self, form):
         # Создаём пользователя, если данные в форму были введены корректно.
         form.save()
-        messages.success(self.request, 'Пользователь успешно зарегистрирован')
+        messages.success(self.request, _('SuccessRegistrationUser'))
 
         # Вызываем метод базового класса
         return super(RegisterView, self).form_valid(form)
@@ -117,7 +117,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         # Получаем объект пользователя на основе введённых в форму данных.
-        messages.success(self.request, 'Вы залогинены')
+        messages.success(self.request, _('YouIn'))
         self.user = form.get_user()
 
         # Выполняем аутентификацию пользователя.
@@ -129,7 +129,7 @@ class LogoutView(View):
     def get(self, request):
         # Выполняем выход для пользователя, запросившего данное представление.
         logout(request)
-        messages.info(self.request, 'Вы разлогинены')
+        messages.info(self.request, _('YouOut'))
 
         # После чего, перенаправляем пользователя на главную страницу.
         return HttpResponseRedirect("/")

@@ -6,8 +6,10 @@ from labels.models import Labels
 
 
 class Tasks(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=True)
+    name_len = 100
+    desc_len = 500
+    name = models.CharField(max_length=name_len)
+    description = models.TextField(max_length=desc_len, blank=True)
     status = models.ForeignKey(Statuses, on_delete=models.PROTECT)
     executor = models.ForeignKey(CustomUser, on_delete=models.PROTECT,
                                  related_name="task_executor", null=True,

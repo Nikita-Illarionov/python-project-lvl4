@@ -1,5 +1,6 @@
 from .models import Statuses
 from django.forms import ModelForm, TextInput
+from django.utils.translation import ugettext as _
 
 
 class StatusForm(ModelForm):
@@ -8,4 +9,4 @@ class StatusForm(ModelForm):
         fields = ['name']
 
         widgets = {'name': TextInput(attrs={'class': 'form-control',
-                                            'placeholder': 'Имя'})}
+                                            'placeholder': _('Name')})}

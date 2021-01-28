@@ -32,7 +32,7 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'statuses/create.html'
     success_url = '/statuses/'
     login_url = 'login'
-    success_message = 'Статус успешно создан'
+    success_message = _('SuccessCreatingStatus')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -43,7 +43,7 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Statuses
-    success_message = 'Статус успешно изменён'
+    success_message = _('SuccessChangingStatus')
     template_name = 'statuses/update.html'
     form_class = StatusForm
     login_url = 'login'
@@ -81,7 +81,7 @@ class DeleteStatus(LoginRequiredMixin, DeleteView):
         error_url = self.get_error_url()
         try:
             self.object.delete()
-            messages.success(request, 'Статус успешно удалён')
+            messages.success(request, _('SuccessDeletingStatus'))
             return HttpResponseRedirect(success_url)
         except models.ProtectedError:
             messages.error(request, _('CannotDeleteStatus'))

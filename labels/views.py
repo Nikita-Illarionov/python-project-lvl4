@@ -31,7 +31,7 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'labels/create.html'
     success_url = '/labels/'
     login_url = 'login'
-    success_message = 'Метка успешно создана'
+    success_message = _('SuccessCreatingLabel')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -45,7 +45,7 @@ class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'labels/update.html'
     form_class = LabelForm
     login_url = 'login'
-    success_message = 'Метка успешно изменена'
+    success_message = _('SuccessChangingLabel')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -60,7 +60,7 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_url = '/labels/'
     context_object_name = 'labels'
     login_url = 'login'
-    success_message = 'Метка успешно удалена'
+    success_message = _('SuccessDeletingLabel')
     error_url = '/statuses/'
 
     def dispatch(self, request, *args, **kwargs):

@@ -1,5 +1,6 @@
 from .models import Labels
 from django.forms import ModelForm, TextInput
+from django.utils.translation import ugettext as _
 
 
 class LabelForm(ModelForm):
@@ -8,4 +9,4 @@ class LabelForm(ModelForm):
         fields = ['name']
 
         widgets = {'name': TextInput(attrs={'class': 'form-control',
-                                            'placeholder': 'Имя'})}
+                                            'placeholder': _('Name')	})}
