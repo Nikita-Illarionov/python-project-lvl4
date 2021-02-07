@@ -10,13 +10,7 @@ from django.utils.translation import ugettext as _
 from django_filters.views import FilterView
 
 
-class TasksList(LoginRequiredMixin, FilterView):
-    model = Tasks
-    template_name = "tasks/main.html"
-    context_object_name = 'tasks'
-    login_url = 'login'
-    filterset_class = TasksFilter
-
+class ErrorMessageMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.error(request, _('NotLoginStatus'))
@@ -24,7 +18,15 @@ class TasksList(LoginRequiredMixin, FilterView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class ShowTask(LoginRequiredMixin, DetailView):
+class TasksList(ErrorMessageMixin, FilterView):
+    model = Tasks
+    template_name = "tasks/main.html"
+    context_object_name = 'tasks'
+    login_url = 'login'
+    filterset_class = TasksFilter
+
+
+class ShowTask(ErrorMessageMixin, DetailView):
     model = Tasks
     template_name = 'tasks/detail.html'
     login_url = 'login'
@@ -36,7 +38,7 @@ class ShowTask(LoginRequiredMixin, DetailView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CreateTask(ErrorMessageMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Tasks
@@ -46,18 +48,12 @@ class CreateTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     success_message = _('SuccessCreatingTask')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
-
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
 
 
-class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateTask(ErrorMessageMixin, SuccessMessageMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/update.html'
     form_class = TasksForm
@@ -71,19 +67,13 @@ class UpdateTask(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class DeleteTask(LoginRequiredMixin, UserPassesTestMixin,
+class DeleteTask(ErrorMessageMixin, UserPassesTestMixin,
                  SuccessMessageMixin, DeleteView):
     model = Tasks
     template_name = 'tasks/delete.html'
     success_url = '/tasks/'
     login_url = 'tasks'
     success_message = _('SuccessDeletingTask')
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
         obj = self.get_object()

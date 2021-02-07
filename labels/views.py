@@ -9,12 +9,7 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse
 
 
-class LabelView(LoginRequiredMixin, ListView):
-    model = Labels
-    template_name = "labels/main.html"
-    context_object_name = 'labels'
-    login_url = 'login'
-
+class ErrorMessageMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.error(request, _('NotLoginStatus'))
@@ -22,9 +17,15 @@ class LabelView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    """Task create view."""
+class LabelView(ErrorMessageMixin, ListView):
+    model = Labels
+    template_name = "labels/main.html"
+    context_object_name = 'labels'
+    login_url = 'login'
 
+
+class CreateLabel(ErrorMessageMixin, SuccessMessageMixin,
+                  CreateView):
     model = Labels
     fields = ['name']
     # form_class = LabelForm
@@ -33,28 +34,16 @@ class CreateLabel(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     success_message = _('SuccessCreatingLabel')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class UpdateLabel(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateLabel(ErrorMessageMixin, SuccessMessageMixin, UpdateView):
     model = Labels
     template_name = 'labels/update.html'
     form_class = LabelForm
     login_url = 'login'
     success_message = _('SuccessChangingLabel')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteLabel(ErrorMessageMixin, SuccessMessageMixin, DeleteView):
     model = Labels
     template_name = 'labels/delete.html'
     success_url = '/labels/'
@@ -62,12 +51,6 @@ class DeleteLabel(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     login_url = 'login'
     success_message = _('SuccessDeletingLabel')
     error_url = '/statuses/'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         if self.get_object().tasks_set.exists() > 0:

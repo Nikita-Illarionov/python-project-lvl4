@@ -10,13 +10,7 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
 
 
-class StatusView(LoginRequiredMixin, ListView):
-    model = Statuses
-    template_name = "statuses/main.html"
-    context_object_name = 'statuses'
-    form_class = StatusForm
-    login_url = 'login'
-
+class ErrorMessageMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.error(request, _('NotLoginStatus'))
@@ -24,7 +18,15 @@ class StatusView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class StatusView(ErrorMessageMixin, ListView):
+    model = Statuses
+    template_name = "statuses/main.html"
+    context_object_name = 'statuses'
+    form_class = StatusForm
+    login_url = 'login'
+
+
+class CreateStatus(ErrorMessageMixin, SuccessMessageMixin, CreateView):
     """Task create view."""
 
     model = Statuses
@@ -34,40 +36,22 @@ class CreateStatus(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'login'
     success_message = _('SuccessCreatingStatus')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class UpdateStatus(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateStatus(ErrorMessageMixin, SuccessMessageMixin, UpdateView):
     model = Statuses
     success_message = _('SuccessChangingStatus')
     template_name = 'statuses/update.html'
     form_class = StatusForm
     login_url = 'login'
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class DeleteStatus(LoginRequiredMixin, DeleteView):
+class DeleteStatus(ErrorMessageMixin, DeleteView):
     model = Statuses
     template_name = 'statuses/delete.html'
     field = ['name']
     success_url = '/statuses/'
     login_url = 'tasks'
     error_url = '/statuses/'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
     def get_error_url(self):
         if self.error_url:
