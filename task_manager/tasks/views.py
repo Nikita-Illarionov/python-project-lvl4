@@ -2,20 +2,13 @@ from django.shortcuts import redirect
 from .models import Tasks
 from .forms import TasksForm
 from django.views.generic import UpdateView, DeleteView, CreateView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .filters import TasksFilter
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django_filters.views import FilterView
-
-
-class ErrorMessageMixin(LoginRequiredMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+from task_manager.mixins import ErrorMessageMixin
 
 
 class TasksList(ErrorMessageMixin, FilterView):
@@ -30,12 +23,6 @@ class ShowTask(ErrorMessageMixin, DetailView):
     model = Tasks
     template_name = 'tasks/detail.html'
     login_url = 'login'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class CreateTask(ErrorMessageMixin, SuccessMessageMixin, CreateView):
@@ -59,12 +46,6 @@ class UpdateTask(ErrorMessageMixin, SuccessMessageMixin, UpdateView):
     form_class = TasksForm
     login_url = 'login'
     success_message = _('SuccessChangingTask')
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class DeleteTask(ErrorMessageMixin, UserPassesTestMixin,

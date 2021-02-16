@@ -1,21 +1,13 @@
 from .models import Statuses
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from .forms import StatusForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
-
-
-class ErrorMessageMixin(LoginRequiredMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+from task_manager.mixins import ErrorMessageMixin
 
 
 class StatusView(ErrorMessageMixin, ListView):

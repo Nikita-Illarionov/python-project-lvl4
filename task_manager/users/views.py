@@ -16,13 +16,32 @@ from django.views.generic.base import View
 from django.core.exceptions import ImproperlyConfigured
 
 
+class ErrorMessageMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('NotLoginStatus'))
+            return self.handle_no_permission()
+        user_test_result = self.get_test_func()()
+        if not user_test_result:
+            messages.error(request, _('UserNoPermission'))
+            return redirect(reverse('users'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
+    def handle_no_permission(self):
+        return redirect(self.login_url)
+
+
 class UserList(ListView):
     model = CustomUser
     template_name = "users/main.html"
     context_object_name = 'users'
 
 
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
+class UserUpdateView(ErrorMessageMixin, UserPassesTestMixin,
                      SuccessMessageMixin, UpdateView):
     model = CustomUser
     template_name = 'users/update.html'
@@ -31,47 +50,13 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
     login_url = 'login'
     success_message = _('SuccessUpdateUser')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        user_test_result = self.get_test_func()()
-        if not user_test_result:
-            messages.error(request, _('UserNoPermission'))
-            return redirect(reverse('users'))
-        return super().dispatch(request, *args, **kwargs)
 
-    def test_func(self):
-        obj = self.get_object()
-        return obj == self.request.user
-
-    def handle_no_permission(self):
-        return redirect(self.login_url)
-
-
-class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class UserDeleteView(ErrorMessageMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
     template_name = 'users/delete.html'
     success_url = '/users/'
     login_url = 'login'
     error_url = '/users/'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        user_test_result = self.get_test_func()()
-        if not user_test_result:
-            messages.error(request, _('UserNoPermission'))
-            return redirect(reverse('users'))
-        return super().dispatch(request, *args, **kwargs)
-
-    def test_func(self):
-        obj = self.get_object()
-        return obj == self.request.user
-
-    def handle_no_permission(self):
-        return redirect(self.login_url)
 
     def get_error_url(self):
         if self.error_url:

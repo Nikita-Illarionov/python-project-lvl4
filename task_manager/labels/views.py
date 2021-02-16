@@ -2,19 +2,11 @@ from django.shortcuts import redirect
 from .models import Labels
 from .forms import LabelForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.urls import reverse
-
-
-class ErrorMessageMixin(LoginRequiredMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, _('NotLoginStatus'))
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+from task_manager.mixins import ErrorMessageMixin
 
 
 class LabelView(ErrorMessageMixin, ListView):
