@@ -1,8 +1,8 @@
 from django.db import models
 from django.urls import reverse
-from users.models import CustomUser
-from statuses.models import Statuses
-from labels.models import Labels
+from task_manager.users.models import CustomUser
+from task_manager.statuses.models import Statuses
+from task_manager.labels.models import Labels
 
 
 class Tasks(models.Model):

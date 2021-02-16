@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from users.models import CustomUser
+from task_manager.users.models import CustomUser
 from django.urls import reverse
 
 

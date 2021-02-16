@@ -1,5 +1,5 @@
 lint:
-	poetry run flake8 users tasks labels statuses task_manager
+	poetry run flake8 task_manager
 
 install:
 	poetry install

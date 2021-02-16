@@ -1,6 +1,6 @@
 from django.test import TestCase
-from users.models import CustomUser
-from statuses.models import Statuses
+from task_manager.users.models import CustomUser
+from task_manager.statuses.models import Statuses
 from django.urls import reverse
 
 

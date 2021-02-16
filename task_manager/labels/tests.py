@@ -1,6 +1,6 @@
 from django.test import TestCase
-from users.models import CustomUser
-from labels.models import Labels
+from task_manager.users.models import CustomUser
+from task_manager.labels.models import Labels
 from django.urls import reverse
 
 

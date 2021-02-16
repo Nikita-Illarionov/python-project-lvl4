@@ -36,10 +36,10 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'tasks',
-    'users.apps.UsersConfig',
-    'statuses',
-    'labels',
+    'task_manager.users',
+    'task_manager.tasks',
+    'task_manager.statuses',
+    'task_manager.labels',
     'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
