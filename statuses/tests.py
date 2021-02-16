@@ -17,17 +17,13 @@ class LabelTest(TestCase):
 
     def test_create_status(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         response = self.client.post('/statuses/create/',
                                     {'name': 'test_status'})
-        # self.assertTrue(isinstance(label, Labels))
-        # self.assertEqual(label.name, 'test_label')
         self.assertEqual(Statuses.objects.count(), 1)
 
     def test_update_status(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         status = self.create_status()
         response = self.client.post(reverse('update_status',
@@ -40,7 +36,6 @@ class LabelTest(TestCase):
 
     def test_delete_status(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         status = self.create_status()
         self.assertEqual(Statuses.objects.count(), 1)

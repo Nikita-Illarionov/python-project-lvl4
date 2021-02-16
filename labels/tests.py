@@ -17,16 +17,12 @@ class LabelTest(TestCase):
 
     def test_create_label(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         response = self.client.post('/labels/create/', {'name': 'test_label'})
-        # self.assertTrue(isinstance(label, Labels))
-        # self.assertEqual(label.name, 'test_label')
         self.assertEqual(Labels.objects.count(), 1)
 
     def test_update_label(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         label = self.create_label()
         response = self.client.post(reverse('update_label',
@@ -39,7 +35,6 @@ class LabelTest(TestCase):
 
     def test_delete_label(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         label = self.create_label()
         self.assertEqual(Labels.objects.count(), 1)

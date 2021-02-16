@@ -53,7 +53,7 @@ class DeleteLabel(ErrorMessageMixin, SuccessMessageMixin, DeleteView):
     error_url = '/statuses/'
 
     def delete(self, request, *args, **kwargs):
-        if self.get_object().tasks_set.exists() > 0:
+        if self.get_object().tasks_set.exists():
             messages.error(request, _('CannotDeleteLabel'))
             return redirect(reverse('labels'))
         messages.success(self.request, self.success_message)

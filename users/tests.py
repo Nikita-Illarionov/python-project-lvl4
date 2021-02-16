@@ -35,7 +35,6 @@ class UpdateDeleteCase(TestCase):
 
     def test_update(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         response = self.client.post('/users/1/update/', {'first_name': 'test',
                                                          'last_name': 'test',
@@ -50,7 +49,6 @@ class UpdateDeleteCase(TestCase):
 
     def test_delete(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         response = self.client.post('/users/1/delete/')
         self.assertEqual(response.status_code, 302)

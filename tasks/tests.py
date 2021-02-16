@@ -21,7 +21,6 @@ class TaskTest(TestCase):
 
     def test_create_task(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # should be logged in now
         self.assertTrue(response.context['user'].is_active)
         status = self.create_status()
         some_user = self.create_user('nik', 'pas')
